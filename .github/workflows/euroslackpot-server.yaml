@@ -3,14 +3,14 @@ name: "Build"
 on:
   push:
     branches:
-      - Master
+      - master
     paths-ignore:
       - '**/*.md'
       - '**/*.gitignore'
       - '**/*.gitattributes'
   workflow_dispatch:
     branches:
-      - Master
+      - master
     paths-ignore:
       - '**/*.md'
       - '**/*.gitignore'
