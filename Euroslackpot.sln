@@ -5,19 +5,27 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2D4EAD67-FC7B-493B-AC49-1F285FE3D2C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "src\API\API.csproj", "{F906A9AD-49D5-451C-BCEF-6F429D9A3FC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "src\API\API.csproj", "{F906A9AD-49D5-451C-BCEF-6F429D9A3FC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "src\Common\Common.csproj", "{6619825C-3092-4532-A889-B5779D5D1EC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "src\Common\Common.csproj", "{6619825C-3092-4532-A889-B5779D5D1EC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "src\Core\Core.csproj", "{FD3E035D-15F8-4D12-B05C-C325D4651EA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "src\Core\Core.csproj", "{FD3E035D-15F8-4D12-B05C-C325D4651EA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "src\Data\Data.csproj", "{8CA62339-F6C0-424D-8958-D8FC99C49EF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "src\Data\Data.csproj", "{8CA62339-F6C0-424D-8958-D8FC99C49EF7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{68F235A9-6FAD-4DCE-9739-4B4B137435A0}"
+	ProjectSection(SolutionItems) = preProject
+		src\API\V1\Player\Models\GetPlayerResponse.cs = src\API\V1\Player\Models\GetPlayerResponse.cs
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "test\IntegrationTests\IntegrationTests.csproj", "{24814C18-8D44-4ECE-BD7E-817F7D99CFD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests", "test\IntegrationTests\IntegrationTests.csproj", "{24814C18-8D44-4ECE-BD7E-817F7D99CFD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "test\UnitTests\UnitTests.csproj", "{1F7AF98C-2D09-4E3D-88F1-F02A21E4AB0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "test\UnitTests\UnitTests.csproj", "{1F7AF98C-2D09-4E3D-88F1-F02A21E4AB0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF4EF2BC-DE2F-4F9B-98C7-544D88DD70B0}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +35,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F906A9AD-49D5-451C-BCEF-6F429D9A3FC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -105,6 +110,9 @@ Global
 		{1F7AF98C-2D09-4E3D-88F1-F02A21E4AB0A}.Release|x86.ActiveCfg = Release|Any CPU
 		{1F7AF98C-2D09-4E3D-88F1-F02A21E4AB0A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F906A9AD-49D5-451C-BCEF-6F429D9A3FC6} = {2D4EAD67-FC7B-493B-AC49-1F285FE3D2C3}
 		{6619825C-3092-4532-A889-B5779D5D1EC7} = {2D4EAD67-FC7B-493B-AC49-1F285FE3D2C3}
@@ -112,5 +120,8 @@ Global
 		{8CA62339-F6C0-424D-8958-D8FC99C49EF7} = {2D4EAD67-FC7B-493B-AC49-1F285FE3D2C3}
 		{24814C18-8D44-4ECE-BD7E-817F7D99CFD4} = {68F235A9-6FAD-4DCE-9739-4B4B137435A0}
 		{1F7AF98C-2D09-4E3D-88F1-F02A21E4AB0A} = {68F235A9-6FAD-4DCE-9739-4B4B137435A0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F3ED59E2-72EB-49F6-893A-79516CBD7E36}
 	EndGlobalSection
 EndGlobal

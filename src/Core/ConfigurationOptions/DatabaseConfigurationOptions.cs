@@ -1,4 +1,4 @@
-﻿namespace Core.ConfigurationOptions
+namespace Core.ConfigurationOptions
 {
     public class DatabaseConfigurationOptions
     {

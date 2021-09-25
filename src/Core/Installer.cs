@@ -10,8 +10,7 @@ namespace Core
             this IServiceCollection serviceCollection,
             IConfiguration configuration)
         {
-            serviceCollection
-                .Configure<DatabaseConfigurationOptions>(configuration.GetSection(DatabaseConfigurationOptions.ConfigurationKey));
+            serviceCollection.Configure<DatabaseConfigurationOptions>(configuration.GetSection(DatabaseConfigurationOptions.ConfigurationKey));
             return serviceCollection;
         }
     }
