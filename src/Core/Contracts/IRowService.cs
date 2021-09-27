@@ -12,5 +12,7 @@ namespace Core.Contracts
         Task<int> CreateRowAsync(CreateRowRequest createRowRequest, CancellationToken cancellationToken);
 
         Task<List<GetAllRowResponse>> GetAllAsync(CancellationToken cancellationToken);
+
+        Task<int> UpdateRowAsync(UpdateRowRequest request, CancellationToken cancellationToken);
     }
 }
