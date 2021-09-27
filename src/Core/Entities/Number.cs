@@ -1,4 +1,5 @@
-﻿using Core.Enums;
+﻿using Core.DatabaseEntities;
+using Core.Enums;
 
 namespace Core.Entities
 {

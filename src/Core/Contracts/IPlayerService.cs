@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.DTOs.Player;
 using Core.Entities;
 
 namespace Core.Contracts
 {
     public interface IPlayerService
     {
-        Task<IEnumerable<Player>> GetAllPlayersAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<GetAllPlayersResponse>> GetAllPlayersAsync(CancellationToken cancellationToken);
 
-        Task<Player> GetPlayerByIdAsync(int id, CancellationToken cancellationToken);
+        Task<GetPlayerByIdResponse> GetPlayerByIdAsync(int id, CancellationToken cancellationToken);
+        
+        Task<int> CreatePlayerAsync(CreatePlayerRequest request, CancellationToken cancellationToken);
     }
 }
