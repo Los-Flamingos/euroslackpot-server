@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Core.DTOs.Player
 {
@@ -6,5 +6,9 @@ namespace Core.DTOs.Player
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
+        public string Email { get; set; }
+
+        public string PhoneNumber { get; set; }
     }
 }

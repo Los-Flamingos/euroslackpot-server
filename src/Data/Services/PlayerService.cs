@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
+using Common.Exceptions;
+using Common.Helpers;
 using Core.ConfigurationOptions;
 using Core.Contracts;
 using Core.DatabaseEntities;
 using Core.DTOs.Player;
-using Core.Entities;
-using Dapper;
 using Dapper.Contrib.Extensions;
 using Microsoft.Extensions.Options;
 
@@ -57,10 +58,22 @@ namespace Data.Services
             Guard.Against.Null(createPlayerRequest, nameof(createPlayerRequest));
             Guard.Against.NullOrEmpty(createPlayerRequest.Name, nameof(createPlayerRequest.Name));
 
+            // TODO Consider validate format of email as well. Refactor validators to own methods
+
+            if (!PhoneNumberHelper.IsValidSwedishPhoneNumber(createPlayerRequest.PhoneNumber))
+            {
+                throw new InvalidPhoneNumberException($"Invalid format of Swedish phone number value '{createPlayerRequest.PhoneNumber}");
+            }
+
             await using var connection = new SQLiteConnection(_configuration.ConnectionString);
             await connection.OpenAsync(cancellationToken);
             
-            var player = new Player { Name = createPlayerRequest.Name };
+            var player = new Player
+            {
+                Name = createPlayerRequest.Name,
+                PhoneNumber = createPlayerRequest.PhoneNumber,
+                Email = createPlayerRequest.Email
+            };
 
             return await connection.InsertAsync(player);
         }
