@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Core.DTOs.Player;
-using Core.Entities;
 
 namespace Core.Contracts
 {
@@ -12,6 +11,6 @@ namespace Core.Contracts
 
         Task<GetPlayerByIdResponse> GetPlayerByIdAsync(int id, CancellationToken cancellationToken);
         
-        Task<int> CreatePlayerAsync(CreatePlayerRequest request, CancellationToken cancellationToken);
+        Task<int> CreatePlayerAsync(CreatePlayerRequest createPlayerRequest, CancellationToken cancellationToken);
     }
 }

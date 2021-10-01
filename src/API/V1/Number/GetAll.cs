@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.ApiEndpoints;
 using Core.Contracts;
@@ -7,27 +6,27 @@ using Core.DTOs.Row;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace API.V1.Row
+namespace API.V1.Number
 {
     public class GetAll : BaseAsyncEndpoint.WithoutRequest.WithResponse<GetAllRowResponse>
     {
-        private readonly IRowService _rowService;
+        private readonly INumberService _numberService;
 
-        public GetAll(IRowService rowService)
+        public GetAll(INumberService numberService)
         {
-            _rowService = rowService;
+            _numberService = numberService;
         }
 
         [HttpGet("v1/rows", Name = "GetAllRows")]
         [SwaggerOperation(
             Summary = "Get all rows",
             Description = "Get all rows",
-            OperationId = "Row.GetAll",
-            Tags = new[] { "Row" })]
+            OperationId = "Number.GetAll",
+            Tags = new[] { "Number" })]
         public override async Task<ActionResult<GetAllRowResponse>> HandleAsync(
             CancellationToken cancellationToken = new CancellationToken())
         {
-            var rows = await _rowService.GetAllAsync(cancellationToken);
+            var rows = await _numberService.GetAllAsync(cancellationToken);
             return Ok(rows);
         }
     }

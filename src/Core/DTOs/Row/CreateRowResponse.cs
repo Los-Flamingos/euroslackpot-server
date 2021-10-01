@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Core.Entities;
+using Core.DatabaseEntities;
 
 namespace Core.DTOs.Row
 {

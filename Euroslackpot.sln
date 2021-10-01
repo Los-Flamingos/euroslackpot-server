@@ -14,9 +14,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "src\Data\Data.csproj", "{8CA62339-F6C0-424D-8958-D8FC99C49EF7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{68F235A9-6FAD-4DCE-9739-4B4B137435A0}"
-	ProjectSection(SolutionItems) = preProject
-		src\API\V1\Player\Models\GetPlayerResponse.cs = src\API\V1\Player\Models\GetPlayerResponse.cs
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests", "test\IntegrationTests\IntegrationTests.csproj", "{24814C18-8D44-4ECE-BD7E-817F7D99CFD4}"
 EndProject

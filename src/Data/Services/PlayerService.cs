@@ -8,9 +8,7 @@ using Core.ConfigurationOptions;
 using Core.Contracts;
 using Core.DatabaseEntities;
 using Core.DTOs.Player;
-using Core.Entities;
 using Dapper;
-using Dapper.Contrib.Extensions;
 using Microsoft.Extensions.Options;
 
 namespace Data.Services
@@ -27,31 +25,55 @@ namespace Data.Services
             _configuration = options.Value;
         }
 
+        /// <summary>
+        /// GetAllPlayersAsync asynchronously retrieves all players from database
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<GetAllPlayersResponse>> GetAllPlayersAsync(CancellationToken cancellationToken)
         {
             await using var connection = new SQLiteConnection(_configuration.ConnectionString);
             await connection.OpenAsync(cancellationToken);
-            var result = await connection.GetAllAsync<Player>();
+
+            var result = await connection.GetListAsync<Player>();
+
             return result.Select(x => new GetAllPlayersResponse
             {
-                Id = x.PlayerId,
+                Id = x.Id,
                 Name = x.Name,
             });
         }
 
+        /// <summary>
+        /// GetPlayerByIdAsync asynchronously returns player with given id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Returns player with id, or null if id does not exist</returns>
         public async Task<GetPlayerByIdResponse> GetPlayerByIdAsync(int id, CancellationToken cancellationToken)
         {
             await using var connection = new SQLiteConnection(_configuration.ConnectionString);
             await connection.OpenAsync(cancellationToken);
 
-            var result = await connection.GetAsync<Player>(id);
+            var player = await connection.GetAsync<Player>(id);
+            if (player == null)
+            {
+                return null;
+            }
+
             return new GetPlayerByIdResponse
             {
-                Id = result.PlayerId,
-                Name = result.Name,
+                Id = player.Id,
+                Name = player.Name,
             };
         }
 
+        /// <summary>
+        /// CreatePlayerAsync asynchronously creates a new player
+        /// </summary>
+        /// <param name="createPlayerRequest"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Returns id of newly created entity</returns>
         public async Task<int> CreatePlayerAsync(CreatePlayerRequest createPlayerRequest, CancellationToken cancellationToken)
         {
             Guard.Against.Null(createPlayerRequest, nameof(createPlayerRequest));
@@ -62,7 +84,8 @@ namespace Data.Services
             
             var player = new Player { Name = createPlayerRequest.Name };
 
-            return await connection.InsertAsync(player);
+            var result = await connection.InsertAsync<Player>(player);
+            return result.Value;
         }
     }
 }

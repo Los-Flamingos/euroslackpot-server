@@ -20,16 +20,15 @@ namespace API.V1.Player
 
         [HttpPost("v1/players", Name = "CreatePlayer")]
         [SwaggerOperation(
-            Summary = "Create new player",
-            Description = "Create new player",
-            OperationId = "Player.Create",
+            Summary = "CreateSingleNumber new player",
+            Description = "CreateSingleNumber new player",
+            OperationId = "Player.CreateSingleNumber",
             Tags = new[] { "Player" })]
         public override async Task<ActionResult<int>> HandleAsync(
             [FromBody] CreatePlayerRequest request,
             CancellationToken cancellationToken = new CancellationToken())
         {
             var player = await _playerService.CreatePlayerAsync(request, cancellationToken);
-
             return Ok(player);
         }
     }

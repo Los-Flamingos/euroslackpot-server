@@ -1,4 +1,5 @@
-﻿using Core.ConfigurationOptions;
+﻿using Ardalis.GuardClauses;
+using Core.ConfigurationOptions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,8 @@ namespace Core
             this IServiceCollection serviceCollection,
             IConfiguration configuration)
         {
+            Guard.Against.Null(configuration, nameof(configuration));
+
             serviceCollection.Configure<DatabaseConfigurationOptions>(configuration.GetSection(DatabaseConfigurationOptions.ConfigurationKey));
             return serviceCollection;
         }

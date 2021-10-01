@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Dapper;
 
 namespace Core.DatabaseEntities
 {
@@ -7,8 +6,10 @@ namespace Core.DatabaseEntities
     public class Player : BaseDbEntity
     {
         [Key]
-        public int PlayerId { get; set; }
+        [Column("Id")]
+        public int Id { get; set; }
 
+        [Column("Name")]
         public string Name { get; set; }
     }
 }

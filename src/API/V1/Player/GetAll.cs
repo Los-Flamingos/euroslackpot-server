@@ -21,8 +21,8 @@ namespace API.V1.Player
 
         [HttpGet("v1/players", Name = "GetAllPlayers")]
         [SwaggerOperation(
-            Summary = "GetById all players",
-            Description = "GetById all players",
+            Summary = "Get all players",
+            Description = "Get all players",
             OperationId = "Player.GetAll",
             Tags = new[] { "Player" })]
         public override async Task<ActionResult<IEnumerable<GetAllPlayersResponse>>> HandleAsync(CancellationToken cancellationToken = new CancellationToken())
