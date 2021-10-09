@@ -1,4 +1,4 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.ApiEndpoints;
 using Core.Contracts;
@@ -29,7 +29,6 @@ namespace API.V1.Player
             CancellationToken cancellationToken = new CancellationToken())
         {
             var player = await _playerService.CreatePlayerAsync(request, cancellationToken);
-
             return Ok(player);
         }
     }
