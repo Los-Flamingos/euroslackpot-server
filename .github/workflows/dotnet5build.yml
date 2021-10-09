@@ -1,6 +1,7 @@
 name: .Net 5 CI Build
 
 on:
+  workflow_dispatch:
   push:
     branches: [ master ]
   pull_request:
