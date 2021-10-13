@@ -2,8 +2,6 @@ name: .Net 5 CI Build
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -30,7 +28,7 @@ jobs:
       run: dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
 
     - name: Copy Coverage To Predictable Location
-      run: ls coverage/**/ && cp -n coverage/**/coverage.cobertura.xml coverage/
+      run: cp -n coverage/**/coverage.cobertura.xml coverage/
 
     - name: Code Coverage Summary Report
       uses: irongut/CodeCoverageSummary@v1.0.5
