@@ -65,7 +65,6 @@ namespace Data.Services
             Guard.Against.NullOrEmpty(createPlayerRequest.Name, nameof(createPlayerRequest.Name));
 
             // TODO Consider validate format of email as well. Refactor validators to own methods
-
             if (!PhoneNumberHelper.IsValidSwedishPhoneNumber(createPlayerRequest.PhoneNumber))
             {
                 throw new InvalidPhoneNumberException($"Invalid format of Swedish phone number value '{createPlayerRequest.PhoneNumber}");

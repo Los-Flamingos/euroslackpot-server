@@ -10,6 +10,7 @@ namespace Data
         {
             serviceCollection.AddScoped<IPlayerService, PlayerService>();
             serviceCollection.AddScoped<INumberService, NumberService>();
+            serviceCollection.AddScoped<IRowService, RowService>();
             return serviceCollection;
         }
     }

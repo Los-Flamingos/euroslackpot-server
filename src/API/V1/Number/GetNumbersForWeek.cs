@@ -2,13 +2,13 @@
 using System.Threading.Tasks;
 using Ardalis.ApiEndpoints;
 using Core.Contracts;
-using Core.DTOs.Row;
+using Core.DTOs.Number;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace API.V1.Row
+namespace API.V1.Number
 {
-    public class GetNumbersForWeek : BaseAsyncEndpoint.WithoutRequest.WithResponse<GetNumbersForWeekResponse>
+    public class GetNumbersForWeek : BaseAsyncEndpoint.WithRequest<int>.WithResponse<GetNumbersForWeekResponse>
     {
         private readonly INumberService _numberService;
 
@@ -17,15 +17,17 @@ namespace API.V1.Row
             _numberService = numberService;
         }
 
-        [HttpGet("v1/numbers", Name = nameof(GetNumbersForWeek))]
+        [HttpGet("v1/numbers/{week}", Name = nameof(GetNumbersForWeek))]
         [SwaggerOperation(
             Summary = "Get all numbers for specific week",
             Description = "Get all numbers for specific week",
             OperationId = "Number.GetNumbersForWeek",
             Tags = new[] { "Number" })]
-        public override async Task<ActionResult<GetNumbersForWeekResponse>> HandleAsync(CancellationToken cancellationToken = new())
+        public override async Task<ActionResult<GetNumbersForWeekResponse>> HandleAsync(
+            [FromRoute] int week,
+            CancellationToken cancellationToken = new())
         {
-            var rows = await _numberService.GetNumbersForWeekAsync(cancellationToken);
+            var rows = await _numberService.GetNumbersForWeekAsync(week, cancellationToken);
             return Ok(rows);
         }
     }

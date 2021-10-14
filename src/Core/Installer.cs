@@ -19,6 +19,7 @@ namespace Core
                 {
                     config.AddMap(new PlayerMap());
                     config.AddMap(new NumberMap());
+                    config.AddMap(new RowMap());
                 });
 
             serviceCollection.Configure<DatabaseConfigurationOptions>(configuration.GetSection(DatabaseConfigurationOptions.ConfigurationKey));

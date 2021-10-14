@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using Core.DTOs.Row;
+using Core.DTOs.Number;
 
 namespace Core.Contracts
 {
     public interface INumberService
     {
-        Task<GetRowByIdResponse> GetRowByIdAsync(int request, CancellationToken cancellationToken);
+        Task<GetNumbersForRowResponse> GetNumbersForRowAsync(int rowId, CancellationToken cancellationToken);
 
-        Task<int> CreateRowAsync(CreateRowRequest createRowRequest, CancellationToken cancellationToken);
+        Task<GetNumbersForWeekResponse> GetNumbersForWeekAsync(int week, CancellationToken cancellationToken);
 
-        Task<List<GetNumbersForWeekResponse>> GetNumbersForWeekAsync(CancellationToken cancellationToken);
+        Task<int> CreateNumberAsync(CreateNumberRequest createNumberRequest, CancellationToken cancellationToken);
     }
 }
