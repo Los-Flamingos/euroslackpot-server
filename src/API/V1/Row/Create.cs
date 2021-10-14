@@ -10,24 +10,24 @@ namespace API.V1.Row
 {
     public class Create : BaseAsyncEndpoint.WithRequest<CreateRowRequest>.WithResponse<CreateRowResponse>
     {
-        private readonly IRowService _rowService;
+        private readonly INumberService _numberService;
 
-        public Create(IRowService rowService)
+        public Create(INumberService numberService)
         {
-            _rowService = rowService;
+            _numberService = numberService;
         }
 
         [HttpPost("v1/rows", Name = "CreateRow")]
         [SwaggerOperation(
             Summary = "Create new row",
             Description = "Create new row",
-            OperationId = "Row.Create",
-            Tags = new[] { "Row" })]
+            OperationId = "Number.Create",
+            Tags = new[] { "Number" })]
         public override async Task<ActionResult<CreateRowResponse>> HandleAsync(
             [FromBody] CreateRowRequest createRowRequest,
             CancellationToken cancellationToken = new CancellationToken())
         {
-            var row = await _rowService.CreateRowAsync(createRowRequest, cancellationToken);
+            var row = await _numberService.CreateRowAsync(createRowRequest, cancellationToken);
 
             return Ok(row);
         }

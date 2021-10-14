@@ -1,9 +1,11 @@
 using System.Threading;
 using System.Threading.Tasks;
+
 using Ardalis.ApiEndpoints;
 
 using Core.Contracts;
 using Core.DTOs.Player;
+
 using Microsoft.AspNetCore.Mvc;
 
 using Swashbuckle.AspNetCore.Annotations;
@@ -37,7 +39,7 @@ namespace API.V1.Player
                 return NotFound(new { id });
             }
 
-            return Ok(new GetAllPlayersResponse { Id = player.Id, Name = player.Name });
+            return Ok(player);
         }
     }
 }

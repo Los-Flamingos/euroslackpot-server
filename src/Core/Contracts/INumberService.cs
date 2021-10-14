@@ -5,12 +5,12 @@ using Core.DTOs.Row;
 
 namespace Core.Contracts
 {
-    public interface IRowService
+    public interface INumberService
     {
         Task<GetRowByIdResponse> GetRowByIdAsync(int request, CancellationToken cancellationToken);
 
         Task<int> CreateRowAsync(CreateRowRequest createRowRequest, CancellationToken cancellationToken);
 
-        Task<List<GetAllRowResponse>> GetAllAsync(CancellationToken cancellationToken);
+        Task<List<GetNumbersForWeekResponse>> GetNumbersForWeekAsync(CancellationToken cancellationToken);
     }
 }

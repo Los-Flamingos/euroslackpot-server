@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,11 +13,11 @@ using Microsoft.Extensions.Options;
 
 namespace Data.Services
 {
-    public class RowService : IRowService
+    public class NumberService : INumberService
     {
         private readonly DatabaseConfigurationOptions _configuration;
 
-        public RowService(IOptions<DatabaseConfigurationOptions> options)
+        public NumberService(IOptions<DatabaseConfigurationOptions> options)
         {
             Guard.Against.Null(options, nameof(options));
             Guard.Against.Null(options.Value, nameof(options.Value));
@@ -28,15 +27,13 @@ namespace Data.Services
 
         public async Task<GetRowByIdResponse> GetRowByIdAsync(int request, CancellationToken cancellationToken)
         {
-            await using var connection = new SQLiteConnection(_configuration.ConnectionString);
+            await using var connection = new SqlConnection(_configuration.ConnectionString);
             await connection.OpenAsync(cancellationToken);
-            var result = await connection.GetAsync<Row>(request);
+            var result = await connection.GetAsync<Number>(request);
             return new GetRowByIdResponse
             {
                 Id = result.RowId,
                 Week = result.Week,
-                CreatedAt = result.CreatedAt,
-                Numbers = result.Numbers,
             };
         }
 
@@ -45,30 +42,28 @@ namespace Data.Services
             Guard.Against.Null(createRowRequest, nameof(createRowRequest));
             Guard.Against.NullOrEmpty(createRowRequest.Week, nameof(createRowRequest.Week));
 
-            await using var connection = new SQLiteConnection(_configuration.ConnectionString);
+            await using var connection = new SqlConnection(_configuration.ConnectionString);
             await connection.OpenAsync(cancellationToken);
             
-            var row = new Row
+            var number = new Number
             {
                 Week = createRowRequest.Week,
-                CreatedAt = DateTime.UtcNow,
-                Numbers = createRowRequest.Numbers,
             };
 
-            return await connection.InsertAsync(row);
+            return await connection.InsertAsync(number);
         }
 
-        public async Task<List<GetAllRowResponse>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<List<GetNumbersForWeekResponse>> GetNumbersForWeekAsync(int week, CancellationToken cancellationToken)
         {
-            await using var connection = new SQLiteConnection(_configuration.ConnectionString);
+            await using var connection = new SqlConnection(_configuration.ConnectionString);
             await connection.OpenAsync(cancellationToken);
-            var result = await connection.GetAllAsync<Row>();
-            return result.Select(x => new GetAllRowResponse
+
+            var result = await connection.GetAllAsync<Number>();
+
+            return result.Select(x => new GetNumbersForWeekResponse
             {
                 Id = x.RowId,
                 Week = x.Week,
-                CreatedAt = x.CreatedAt,
-                Numbers = x.Numbers,
             }).ToList();
         }
     }

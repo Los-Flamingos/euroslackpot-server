@@ -5,13 +5,10 @@ using Core.Entities;
 
 namespace Core.DTOs.Row
 {
-    public class GetAllRowResponse
+    public class GetNumbersForWeekResponse
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
-
-        [JsonPropertyName("createdAt")]
-        public DateTime CreatedAt { get; set; }
 
         [JsonPropertyName("week")]
         public string Week { get; set; }
