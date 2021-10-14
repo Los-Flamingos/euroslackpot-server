@@ -1,4 +1,4 @@
-name: .Net 5 Merge build
+name: .Net 5 Merge and deploy
 
 on:
   workflow_dispatch:
@@ -30,7 +30,7 @@ jobs:
 
     - name: Publish
       run: |
-        dotnet publish -c Release -o app
+        dotnet publish src\API\API.csproj -c Release -o app
     
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
