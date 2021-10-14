@@ -9,6 +9,7 @@ namespace Data
         public static IServiceCollection AddDataServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IPlayerService, PlayerService>();
+            serviceCollection.AddScoped<INumberService, NumberService>();
             serviceCollection.AddScoped<IRowService, RowService>();
             return serviceCollection;
         }

@@ -8,12 +8,11 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.V1.Player
 {
-    public class Create
-        : BaseAsyncEndpoint.WithRequest<CreatePlayerRequest>.WithResponse<int>
+    public class CreatePlayer : BaseAsyncEndpoint.WithRequest<CreatePlayerRequest>.WithResponse<int>
     {
         private readonly IPlayerService _playerService;
 
-        public Create(IPlayerService playerService)
+        public CreatePlayer(IPlayerService playerService)
         {
             _playerService = playerService;
         }

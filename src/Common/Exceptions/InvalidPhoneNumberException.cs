@@ -2,13 +2,13 @@ using System.Net;
 
 namespace Common.Exceptions
 {
-    public class InvalidPhoneNumberException : EuroslackpotException
+    public sealed class InvalidPhoneNumberException : EuroslackpotException
     {
         public InvalidPhoneNumberException(string message)
-            : base(message)
-        {
-        }
+            : base(message) => Message = message;
 
-        public override HttpStatusCode StatusCode { get; } = HttpStatusCode.BadRequest;
+        public override HttpStatusCode StatusCode => HttpStatusCode.BadRequest;
+
+        public override string Message { get; set; }
     }
 }

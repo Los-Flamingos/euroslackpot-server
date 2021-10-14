@@ -9,5 +9,11 @@ namespace Core.DTOs.Player
 
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
+        [JsonPropertyName("email")]
+        public string Email { get; set; }
+
+        [JsonPropertyName("phoneNumber")]
+        public string PhoneNumber { get; set; }
     }
 }

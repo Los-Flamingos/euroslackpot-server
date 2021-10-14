@@ -1,6 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,26 +29,33 @@ namespace Data.Services
 
         public async Task<IEnumerable<GetAllPlayersResponse>> GetAllPlayersAsync(CancellationToken cancellationToken)
         {
-            await using var connection = new SQLiteConnection(_configuration.ConnectionString);
+            await using var connection = new SqlConnection(_configuration.ConnectionString);
             await connection.OpenAsync(cancellationToken);
+
             var result = await connection.GetAllAsync<Player>();
+
             return result.Select(x => new GetAllPlayersResponse
             {
                 Id = x.PlayerId,
                 Name = x.Name,
+                Email = x.Email,
+                PhoneNumber = x.PhoneNumber,
             });
         }
 
         public async Task<GetPlayerByIdResponse> GetPlayerByIdAsync(int id, CancellationToken cancellationToken)
         {
-            await using var connection = new SQLiteConnection(_configuration.ConnectionString);
+            await using var connection = new SqlConnection(_configuration.ConnectionString);
             await connection.OpenAsync(cancellationToken);
 
             var result = await connection.GetAsync<Player>(id);
+
             return new GetPlayerByIdResponse
             {
                 Id = result.PlayerId,
                 Name = result.Name,
+                Email = result.Email,
+                PhoneNumber = result.PhoneNumber,
             };
         }
 
@@ -59,20 +65,19 @@ namespace Data.Services
             Guard.Against.NullOrEmpty(createPlayerRequest.Name, nameof(createPlayerRequest.Name));
 
             // TODO Consider validate format of email as well. Refactor validators to own methods
-
             if (!PhoneNumberHelper.IsValidSwedishPhoneNumber(createPlayerRequest.PhoneNumber))
             {
                 throw new InvalidPhoneNumberException($"Invalid format of Swedish phone number value '{createPlayerRequest.PhoneNumber}");
             }
 
-            await using var connection = new SQLiteConnection(_configuration.ConnectionString);
+            await using var connection = new SqlConnection(_configuration.ConnectionString);
             await connection.OpenAsync(cancellationToken);
             
             var player = new Player
             {
                 Name = createPlayerRequest.Name,
                 PhoneNumber = createPlayerRequest.PhoneNumber,
-                Email = createPlayerRequest.Email
+                Email = createPlayerRequest.Email,
             };
 
             return await connection.InsertAsync(player);

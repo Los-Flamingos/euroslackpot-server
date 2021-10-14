@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Core.DTOs.Player;
-using Core.Entities;
 
 namespace Core.Contracts
 {

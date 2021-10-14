@@ -8,11 +8,11 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.V1.Row
 {
-    public class Create : BaseAsyncEndpoint.WithRequest<CreateRowRequest>.WithResponse<CreateRowResponse>
+    public class CreateRow : BaseAsyncEndpoint.WithRequest<CreateRowRequest>.WithResponse<int>
     {
         private readonly IRowService _rowService;
 
-        public Create(IRowService rowService)
+        public CreateRow(IRowService rowService)
         {
             _rowService = rowService;
         }
@@ -23,13 +23,10 @@ namespace API.V1.Row
             Description = "Create new row",
             OperationId = "Row.Create",
             Tags = new[] { "Row" })]
-        public override async Task<ActionResult<CreateRowResponse>> HandleAsync(
-            [FromBody] CreateRowRequest createRowRequest,
-            CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<ActionResult<int>> HandleAsync(CreateRowRequest request, CancellationToken cancellationToken = new())
         {
-            var row = await _rowService.CreateRowAsync(createRowRequest, cancellationToken);
-
-            return Ok(row);
+            var result = await _rowService.CreateRowAsync(request, cancellationToken);
+            return Ok(result);
         }
     }
 }
