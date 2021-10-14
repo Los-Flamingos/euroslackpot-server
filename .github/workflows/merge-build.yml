@@ -30,7 +30,7 @@ jobs:
 
     - name: Publish
       run: |
-        dotnet publish src\API\API.csproj -c Release -o app
+        dotnet publish src/API/API.csproj -c Release -o app
     
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
