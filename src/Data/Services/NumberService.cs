@@ -10,6 +10,7 @@ using Core.DatabaseEntities;
 using Core.DTOs.Number;
 using Dapper;
 using Dapper.Contrib.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Data.Services
@@ -17,12 +18,14 @@ namespace Data.Services
     public class NumberService : INumberService
     {
         private readonly DatabaseConfigurationOptions _configuration;
+        private readonly ILogger<NumberService> _logger;
 
-        public NumberService(IOptions<DatabaseConfigurationOptions> options)
+        public NumberService(IOptions<DatabaseConfigurationOptions> options, ILogger<NumberService> logger)
         {
             Guard.Against.Null(options, nameof(options));
             Guard.Against.Null(options.Value, nameof(options.Value));
 
+            _logger = logger;
             _configuration = options.Value;
         }
 
@@ -34,6 +37,7 @@ namespace Data.Services
             var result = await connection.QueryAsync<Number>("SELECT * FROM Number WHERE RowId = @rowId", rowId);
             if (result == null)
             {
+                _logger.LogInformation("Row with id {rowId} was not found", rowId);
                 return null;
             }
 
@@ -87,7 +91,9 @@ namespace Data.Services
             var result = await connection.GetAsync<Row>(createNumberRequest.RowId);
             if (result == null)
             {
-                throw new RowNotFoundException($"Row with id {createNumberRequest.RowId} could not be found");
+                var exception = new RowNotFoundException($"Row with id {createNumberRequest.RowId} could not be found");
+                _logger.LogError(exception, exception.Message);
+                throw exception;
             }
 
             // TODO: Error handling for duplicate numbers, already max amount of numbers etc.
