@@ -1,6 +1,10 @@
 using API.Middleware;
+
 using Core;
+
 using Data;
+
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +25,14 @@ namespace API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // The following line enables Application Insights telemetry collection.
+            services.AddApplicationInsightsTelemetry(
+                config =>
+                {
+                    config.ConnectionString = Configuration["ApplicationInsights:InstrumentationKey"];
+                    config.RequestCollectionOptions.TrackExceptions = true;
+                });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -39,7 +51,7 @@ namespace API
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Version 1"));
 
