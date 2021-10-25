@@ -6,19 +6,17 @@ using Xunit;
 
 namespace IntegrationTests
 {
-    public class SwaggerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    [Collection(nameof(TestFixture))]
+    public class SwaggerTests
     {
-        private readonly CustomWebApplicationFactory<Startup> _factory;
+        private readonly TestFixture _fixture;
 
-        public SwaggerTests(CustomWebApplicationFactory<Startup> factory)
-        {
-            _factory = factory;
-        }
+        public SwaggerTests(TestFixture fixture) => _fixture = fixture;
 
         [Fact]
         public async Task SwaggerUI_Should_Render_SwaggerUI_With_200OK_StatusCode()
         {
-            var client = _factory.CreateClient();
+            var client = _fixture.CreateClient();
 
             var httpResponse = await client.GetAsync("/swagger");
 
@@ -28,7 +26,7 @@ namespace IntegrationTests
         [Fact]
         public async Task SwaggerGen_Should_Render_SwaggerGen_With_200OK_StatusCode()
         {
-            var client = _factory.CreateClient();
+            var client = _fixture.CreateClient();
 
             var httpResponse = await client.GetAsync("/swagger/v1/swagger.json");
 

@@ -10,7 +10,6 @@ CREATE TABLE Player (
 
 CREATE TABLE Row (
 	RowId INT IDENTITY(1, 1),
-	Week NVARCHAR(10) NOT NULL,
 	Earnings FLOAT NULL,
 	PRIMARY KEY (RowId)
 )
@@ -20,6 +19,7 @@ CREATE TABLE Number (
 	RowId INT NOT NULL,
 	PlayerId INT NOT NULL,
 	NumberType INT NOT NULL,
+	Week INT NOT NULL,
 	Value INT NOT NULL,
 	PRIMARY KEY (NumberId),
 	FOREIGN KEY(RowId) REFERENCES Row(RowId),
@@ -37,35 +37,35 @@ VALUES
 	('Euro Slackpot Admin', 'admin@euroslackpot.com', '0700666666');
 
 INSERT INTO
-	Row (Week)
+	Row (Earnings)
 VALUES
-	(41),
-	(41),
-	(42);
+	(40.45),
+	(1233.12),
+	(999999.65);
 
 INSERT INTO
-	Number (RowId, PlayerId, NumberType, Value)
+	Number (RowId, PlayerId, NumberType, Week, Value)
 VALUES
-	(1, 1, 0, 5),
-	(1, 2, 0, 10),
-	(1, 3, 0, 15),
-	(1, 4, 0, 20),
-	(1, 5, 0, 25),
-	(1, 1, 1, 5),
-	(1, 4, 1, 6),
-	(2, 1, 0, 5),
-	(2, 2, 0, 10),
-	(2, 3, 0, 15),
-	(2, 4, 0, 20),
-	(2, 5, 0, 25),
-	(2, 1, 1, 5),
-	(2, 4, 1, 6),
-	(3, 1, 0, 5),
-	(3, 2, 0, 10),
-	(3, 3, 0, 15),
-	(3, 4, 0, 20),
-	(3, 5, 0, 25),
-	(3, 1, 1, 5),
-	(3, 4, 1, 6);
+	(1, 1, 0, datepart(ISO_WEEK, GETDATE()), 5),
+	(1, 2, 0, datepart(ISO_WEEK, GETDATE()), 10),
+	(1, 3, 0, datepart(ISO_WEEK, GETDATE()), 15),
+	(1, 4, 0, datepart(ISO_WEEK, GETDATE()), 20),
+	(1, 5, 0, datepart(ISO_WEEK, GETDATE()), 25),
+	(1, 1, 1, datepart(ISO_WEEK, GETDATE()), 5),
+	(1, 4, 1, datepart(ISO_WEEK, GETDATE()), 6),
+	(2, 1, 0, datepart(ISO_WEEK, GETDATE()), 5),
+	(2, 2, 0, datepart(ISO_WEEK, GETDATE()), 10),
+	(2, 3, 0, datepart(ISO_WEEK, GETDATE()), 15),
+	(2, 4, 0, datepart(ISO_WEEK, GETDATE()), 20),
+	(2, 5, 0, datepart(ISO_WEEK, GETDATE()), 25),
+	(2, 1, 1, datepart(ISO_WEEK, GETDATE()), 5),
+	(2, 4, 1, datepart(ISO_WEEK, GETDATE()), 6),
+	(3, 1, 0, datepart(ISO_WEEK, GETDATE()), 5),
+	(3, 2, 0, datepart(ISO_WEEK, GETDATE()), 10),
+	(3, 3, 0, datepart(ISO_WEEK, GETDATE()), 15),
+	(3, 4, 0, datepart(ISO_WEEK, GETDATE()), 20),
+	(3, 5, 0, datepart(ISO_WEEK, GETDATE()), 25),
+	(3, 1, 1, datepart(ISO_WEEK, GETDATE()), 5),
+	(3, 4, 1, datepart(ISO_WEEK, GETDATE()), 6);
 
 COMMIT;

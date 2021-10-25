@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Ardalis.ApiEndpoints;
-
 using Core.Contracts;
 using Core.DTOs.Player;
 
@@ -30,8 +29,7 @@ namespace API.V1.Player
             Tags = new[] { "Player" })]
         public override async Task<ActionResult<IEnumerable<GetAllPlayersResponse>>> HandleAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-            var players = await _playerService.GetAllPlayersAsync(cancellationToken);
-            return Ok(players);
+            return this.ToActionResult(await _playerService.GetAllPlayersAsync(cancellationToken));
         }
     }
 }

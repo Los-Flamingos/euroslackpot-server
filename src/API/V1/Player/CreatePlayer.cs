@@ -30,11 +30,7 @@ namespace API.V1.Player
             [FromBody] CreatePlayerRequest request,
             CancellationToken cancellationToken = new CancellationToken())
         {
-            _logger.LogInformation("Creating new player");
-
-            var player = await _playerService.CreatePlayerAsync(request, cancellationToken);
-
-            return Ok(player);
+            return this.ToActionResult(await _playerService.CreatePlayerAsync(request, cancellationToken));
         }
     }
 }

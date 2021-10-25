@@ -3,8 +3,6 @@ using API.Middleware;
 using Core;
 
 using Data;
-
-using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
