@@ -30,17 +30,10 @@ namespace Data.Services
         {
             Guard.Against.Null(createRowRequest, nameof(createRowRequest));
 
-            var validator = new CreateRowRequestValidator();
-            var validateResult = await validator.ValidateAsync(createRowRequest, cancellationToken);
-            if (!validateResult.IsValid)
-            {
-                return Result<int>.Invalid(validateResult.AsErrors());
-            }
-
             await using var connection = new SqlConnection(_configuration.ConnectionString);
             await connection.OpenAsync(cancellationToken);
 
-            var row = new Row { Week = createRowRequest.Week, };
+            var row = new Row { Earnings = createRowRequest.Earnings, };
 
             var result = await connection.InsertAsync<Row>(row);
 

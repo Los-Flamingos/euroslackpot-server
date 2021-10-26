@@ -8,8 +8,6 @@ namespace Core.DatabaseEntities
         [Key]
         public int RowId { get; set; }
 
-        public int Week { get; set; }
-
-        public double Earnings { get; set; }
+        public decimal Earnings { get; set; }
     }
 }

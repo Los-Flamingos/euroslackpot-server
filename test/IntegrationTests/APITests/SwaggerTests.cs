@@ -1,10 +1,11 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using API;
 using IntegrationTests.Setup;
 using Xunit;
 
-namespace IntegrationTests
+namespace IntegrationTests.APITests
 {
     [Collection(nameof(TestFixture))]
     public class SwaggerTests
@@ -16,7 +17,7 @@ namespace IntegrationTests
         [Fact]
         public async Task SwaggerUI_Should_Render_SwaggerUI_With_200OK_StatusCode()
         {
-            var client = _fixture.CreateClient();
+            var client = _fixture.Factory.CreateClient();
 
             var httpResponse = await client.GetAsync("/swagger");
 
@@ -26,7 +27,7 @@ namespace IntegrationTests
         [Fact]
         public async Task SwaggerGen_Should_Render_SwaggerGen_With_200OK_StatusCode()
         {
-            var client = _fixture.CreateClient();
+            var client = _fixture.Factory.CreateClient();
 
             var httpResponse = await client.GetAsync("/swagger/v1/swagger.json");
 

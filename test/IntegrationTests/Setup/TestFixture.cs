@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Net.Http;
 using System.Threading.Tasks;
 using API;
+using Core.DatabaseEntities;
+using Dapper.Contrib.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +19,6 @@ namespace IntegrationTests.Setup
 
     public class TestFixture : IAsyncLifetime
     {
-        private readonly IServiceScopeFactory _scopeFactory;
         private readonly WebApplicationFactory<Startup> _factory;
         private readonly Checkpoint _checkPoint;
         private readonly IConfiguration _configuration;
@@ -25,8 +27,6 @@ namespace IntegrationTests.Setup
         {
             _factory = new EuroslackpotTestApplicationFactory();
             _configuration = _factory.Services.GetRequiredService<IConfiguration>();
-            _scopeFactory = _factory.Services.GetRequiredService<IServiceScopeFactory>();
-
             _checkPoint = new Checkpoint();
         }
 
@@ -34,7 +34,21 @@ namespace IntegrationTests.Setup
 
         public Task InitializeAsync() => _checkPoint.Reset(_configuration["Database:ConnectionString"]);
 
-        public HttpClient CreateClient() => _factory.CreateClient();
+        public WebApplicationFactory<Startup> Factory => _factory;
+
+        public async Task<int> InsertTestDataAsync<T>(T entity) where T : class
+        {
+            await using var connection = new SqlConnection(_configuration["Database:ConnectionString"]);
+            await connection.OpenAsync();
+            return await connection.InsertAsync<T>(entity);
+        }
+
+        public async Task<T> GetTestDataAsync<T>(int rowId) where T : class
+        {
+            await using var connection = new SqlConnection(_configuration["Database:ConnectionString"]);
+            await connection.OpenAsync();
+            return await connection.GetAsync<T>(rowId);
+        }
 
         public Task DisposeAsync()
         {
