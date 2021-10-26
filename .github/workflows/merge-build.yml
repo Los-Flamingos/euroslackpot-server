@@ -5,6 +5,7 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: web-eun-euroslackpot
+  Database:ConnectionString: ${{ secrets.SQL_CONNECTIONSTRING }}
 
 jobs:
   build:
