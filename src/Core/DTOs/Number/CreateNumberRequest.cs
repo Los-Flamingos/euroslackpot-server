@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using Core.Enums;
+﻿using Core.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Core.DTOs.Number

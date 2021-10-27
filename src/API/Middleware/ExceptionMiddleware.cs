@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Common.Exceptions;
+using Common.Exceptions.Base;
 using Microsoft.AspNetCore.Http;
 
 namespace API.Middleware

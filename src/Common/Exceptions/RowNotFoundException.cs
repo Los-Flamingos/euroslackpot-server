@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Common.Exceptions.Base;
 
 namespace Common.Exceptions
 {
