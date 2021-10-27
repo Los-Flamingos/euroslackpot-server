@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="ConfigurationOptions\" />
-    <Folder Include="DTOs\Row\" />
     <Folder Include="Enums\" />
   </ItemGroup>
 
