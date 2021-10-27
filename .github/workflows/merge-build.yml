@@ -12,6 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Merge build
     steps:
+    - name: Az login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
     - name: Checkout
       uses: actions/checkout@v2
 
@@ -39,3 +44,7 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: './app'
+
+    - name: AZ logout
+      run: |
+        az logout
