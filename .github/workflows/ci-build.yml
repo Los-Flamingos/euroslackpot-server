@@ -5,11 +5,19 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  Database:ConnectionString: ${{ secrets.SQL_CONNECTIONSTRING }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
     name: CI Build
     steps:
+    - name: Az login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
     - name: Checkout
       uses: actions/checkout@v2
 
@@ -44,3 +52,7 @@ jobs:
       with:
         recreate: true
         path: code-coverage-results.md
+
+    - name: AZ logout
+      run: |
+        az logout

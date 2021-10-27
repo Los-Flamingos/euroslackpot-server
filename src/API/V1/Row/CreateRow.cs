@@ -25,8 +25,7 @@ namespace API.V1.Row
             Tags = new[] { "Row" })]
         public override async Task<ActionResult<int>> HandleAsync(CreateRowRequest request, CancellationToken cancellationToken = new())
         {
-            var result = await _rowService.CreateRowAsync(request, cancellationToken);
-            return Ok(result);
+            return this.ToActionResult(await _rowService.CreateRowAsync(request, cancellationToken));
         }
     }
 }

@@ -2,7 +2,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Ardalis.ApiEndpoints;
-
 using Core.Contracts;
 using Core.DTOs.Player;
 
@@ -35,15 +34,7 @@ namespace API.V1.Player
             [FromRoute] int id,
             CancellationToken cancellationToken = new CancellationToken())
         {
-            _logger.LogInformation("Player with id '{PlayerId}' was not found", id);
-
-            var player = await playerService.GetPlayerByIdAsync(id, cancellationToken);
-            if (player == null)
-            {
-                return NotFound(new { id });
-            }
-
-            return Ok(player);
+            return this.ToActionResult(await playerService.GetPlayerByIdAsync(id, cancellationToken));
         }
     }
 }

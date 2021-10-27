@@ -2,10 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
+using Ardalis.Result;
+using Ardalis.Result.FluentValidation;
 using Core.ConfigurationOptions;
 using Core.Contracts;
 using Core.DatabaseEntities;
 using Core.DTOs.Row;
+using Core.Validators;
 using Dapper.Contrib.Extensions;
 using Microsoft.Extensions.Options;
 
@@ -23,15 +26,14 @@ namespace Data.Services
             _configuration = options.Value;
         }
 
-        public async Task<int> CreateRowAsync(CreateRowRequest createRowRequest, CancellationToken cancellationToken)
+        public async Task<Result<int>> CreateRowAsync(CreateRowRequest createRowRequest, CancellationToken cancellationToken)
         {
             Guard.Against.Null(createRowRequest, nameof(createRowRequest));
-            Guard.Against.Default(createRowRequest.Week, nameof(createRowRequest.Week));
 
             await using var connection = new SqlConnection(_configuration.ConnectionString);
             await connection.OpenAsync(cancellationToken);
 
-            var row = new Row { Week = createRowRequest.Week, };
+            var row = new Row { Earnings = createRowRequest.Earnings, };
 
             var result = await connection.InsertAsync<Row>(row);
 

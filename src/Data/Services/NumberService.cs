@@ -3,11 +3,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
-using Common.Exceptions;
+using Ardalis.Result;
+using Ardalis.Result.FluentValidation;
 using Core.ConfigurationOptions;
 using Core.Contracts;
 using Core.DatabaseEntities;
 using Core.DTOs.Number;
+using Core.Validators;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using Microsoft.Extensions.Logging;
@@ -29,40 +31,14 @@ namespace Data.Services
             _configuration = options.Value;
         }
 
-        public async Task<GetNumbersForRowResponse> GetNumbersForRowAsync(int rowId, CancellationToken cancellationToken)
-        {
-            await using var connection = new SqlConnection(_configuration.ConnectionString);
-            await connection.OpenAsync(cancellationToken);
-
-            var result = await connection.QueryAsync<Number>("SELECT * FROM Number WHERE RowId = @rowId", rowId);
-            if (result == null)
-            {
-                _logger.LogInformation("Row with id {rowId} was not found", rowId);
-                return null;
-            }
-
-            return new GetNumbersForRowResponse
-            {
-                Id = rowId,
-                Week = result.FirstOrDefault().Week,
-                Numbers = result.Select(x => new NumberRowDto
-                {
-                    NumberId = x.NumberId,
-                    PlayerId = x.PlayerId,
-                    Type = x.Type,
-                    Value = x.Value,
-                }).ToList(),
-            };
-        }
-
-        public async Task<GetNumbersForWeekResponse> GetNumbersForWeekAsync(int week, CancellationToken cancellationToken)
+        public async Task<Result<GetNumbersForWeekResponse>> GetNumbersForWeekAsync(int week, CancellationToken cancellationToken)
         {
             await using var connection = new SqlConnection(_configuration.ConnectionString);
             await connection.OpenAsync(cancellationToken);
 
             var result = await connection.QueryAsync<Number>("SELECT * FROM Number where Week = @week", week);
 
-            return new GetNumbersForWeekResponse
+            return new Result<GetNumbersForWeekResponse>(new GetNumbersForWeekResponse
             {
                 Week = week,
                 Numbers = result.Select(x => new NumberWeekDto
@@ -70,30 +46,32 @@ namespace Data.Services
                         NumberId = x.NumberId,
                         PlayerId = x.PlayerId,
                         RowId = x.RowId,
-                        Type = x.Type,
+                        Type = x.NumberType,
                         Value = x.Value,
                     })
                     .ToList(),
-            };
+            });
         }
 
-        public async Task<int> CreateNumberAsync(CreateNumberRequest createNumberRequest, CancellationToken cancellationToken)
+        public async Task<Result<int>> CreateNumberAsync(CreateNumberRequest createNumberRequest, CancellationToken cancellationToken)
         {
             Guard.Against.Null(createNumberRequest, nameof(createNumberRequest));
-            Guard.Against.Default(createNumberRequest.NumberRequest.Week, nameof(createNumberRequest.NumberRequest.Week));
-            Guard.Against.Default(createNumberRequest.NumberRequest.PlayerId, nameof(createNumberRequest.NumberRequest.PlayerId));
-            Guard.Against.Default(createNumberRequest.RowId, nameof(createNumberRequest.RowId));
-            Guard.Against.Default(createNumberRequest.NumberRequest.Value, nameof(createNumberRequest.NumberRequest.Value));
+
+            var validator = new CreateNumberRequestValidator();
+            var validateResult = await validator.ValidateAsync(createNumberRequest, cancellationToken);
+            if (!validateResult.IsValid)
+            {
+                return Result<int>.Invalid(validateResult.AsErrors());
+            }
 
             await using var connection = new SqlConnection(_configuration.ConnectionString);
             await connection.OpenAsync(cancellationToken);
 
-            var result = await connection.GetAsync<Row>(createNumberRequest.RowId);
-            if (result == null)
+            var row = await connection.GetAsync<Row>(createNumberRequest.RowId);
+            if (row == null)
             {
-                var exception = new RowNotFoundException($"Row with id {createNumberRequest.RowId} could not be found");
-                _logger.LogError(exception, exception.Message);
-                throw exception;
+                _logger.LogError("Row with id {RowId} was not found", createNumberRequest.RowId);
+                return Result<int>.Error($"Row with id {createNumberRequest.RowId} was not found");
             }
 
             // TODO: Error handling for duplicate numbers, already max amount of numbers etc.
@@ -102,11 +80,12 @@ namespace Data.Services
                 Week = createNumberRequest.NumberRequest.Week,
                 RowId = createNumberRequest.RowId,
                 PlayerId = createNumberRequest.NumberRequest.PlayerId,
-                Type = createNumberRequest.NumberRequest.Type,
+                NumberType = createNumberRequest.NumberRequest.Type,
                 Value = createNumberRequest.NumberRequest.Value,
             };
 
-            return await connection.InsertAsync(number);
+            var result = await connection.InsertAsync(number);
+            return Result<int>.Success(result);
         }
     }
 }

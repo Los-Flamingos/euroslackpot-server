@@ -14,9 +14,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
+    <PackageReference Include="Ardalis.Result.FluentValidation" Version="3.0.2" />
     <PackageReference Include="Ardalis.GuardClauses" Version="3.2.0" />
+    <PackageReference Include="Ardalis.Result" Version="3.1.2" />
     <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
-    <PackageReference Include="Dapper.FluentMap" Version="2.0.0" />
+    <PackageReference Include="FluentValidation" Version="10.3.4" />
   </ItemGroup>
 
   <ItemGroup>

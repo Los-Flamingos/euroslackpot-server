@@ -4,8 +4,6 @@ using Ardalis.ApiEndpoints;
 using Core.Contracts;
 using Core.DTOs.Number;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.V1.Number
@@ -13,12 +11,10 @@ namespace API.V1.Number
     public class GetNumbersForWeek : BaseAsyncEndpoint.WithRequest<int>.WithResponse<GetNumbersForWeekResponse>
     {
         private readonly INumberService _numberService;
-        private readonly ILogger<GetNumbersForWeek> _logger;
 
-        public GetNumbersForWeek(INumberService numberService, ILogger<GetNumbersForWeek> logger)
+        public GetNumbersForWeek(INumberService numberService)
         {
             _numberService = numberService;
-            _logger = logger;
         }
 
         [HttpGet("v1/numbers/{week}", Name = nameof(GetNumbersForWeek))]
@@ -31,11 +27,7 @@ namespace API.V1.Number
             [FromRoute] int week,
             CancellationToken cancellationToken = new())
         {
-            _logger.LogInformation("Getting numbers for week {Week}", week);
-
-            var rows = await _numberService.GetNumbersForWeekAsync(week, cancellationToken);
-            
-            return Ok(rows);
+            return this.ToActionResult(await _numberService.GetNumbersForWeekAsync(week, cancellationToken));
         }
     }
 }

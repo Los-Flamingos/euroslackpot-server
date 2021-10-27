@@ -2,6 +2,6 @@
 {
     public class CreateRowRequest
     {
-        public int Week { get; set; }
+        public decimal Earnings { get; set; }
     }
 }
