@@ -3,12 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using Ardalis.Result;
-using Ardalis.Result.FluentValidation;
 using Core.ConfigurationOptions;
 using Core.Contracts;
 using Core.DatabaseEntities;
-using Core.DTOs.Row;
-using Core.Validators;
 using Dapper.Contrib.Extensions;
 using Microsoft.Extensions.Options;
 
@@ -26,16 +23,12 @@ namespace Data.Services
             _configuration = options.Value;
         }
 
-        public async Task<Result<int>> CreateRowAsync(CreateRowRequest createRowRequest, CancellationToken cancellationToken)
+        /// <inheritdoc />
+        public async Task<Result<int>> CreateRowAsync(CancellationToken cancellationToken)
         {
-            Guard.Against.Null(createRowRequest, nameof(createRowRequest));
-
             await using var connection = new SqlConnection(_configuration.ConnectionString);
             await connection.OpenAsync(cancellationToken);
-
-            var row = new Row { Earnings = createRowRequest.Earnings, };
-
-            var result = await connection.InsertAsync<Row>(row);
+            var result = await connection.InsertAsync<Row>(new Row {});
 
             return result;
         }
