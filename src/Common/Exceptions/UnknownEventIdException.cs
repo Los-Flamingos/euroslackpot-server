@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 
-namespace Common
+namespace Common.Exceptions
 {
     public class UnknownEventIdException : Exception
     {

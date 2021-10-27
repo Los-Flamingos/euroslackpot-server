@@ -1,11 +1,7 @@
-﻿using System;
-using System.Data.SqlClient;
-using System.Net.Http;
+﻿using System.Data.SqlClient;
 using System.Threading.Tasks;
 using API;
-using Core.DatabaseEntities;
 using Dapper.Contrib.Extensions;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

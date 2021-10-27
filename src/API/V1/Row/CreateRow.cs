@@ -2,13 +2,12 @@
 using System.Threading.Tasks;
 using Ardalis.ApiEndpoints;
 using Core.Contracts;
-using Core.DTOs.Row;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.V1.Row
 {
-    public class CreateRow : BaseAsyncEndpoint.WithRequest<CreateRowRequest>.WithResponse<int>
+    public class CreateRow : BaseAsyncEndpoint.WithoutRequest.WithResponse<int>
     {
         private readonly IRowService _rowService;
 
@@ -23,9 +22,9 @@ namespace API.V1.Row
             Description = "Create new row",
             OperationId = "Row.Create",
             Tags = new[] { "Row" })]
-        public override async Task<ActionResult<int>> HandleAsync(CreateRowRequest request, CancellationToken cancellationToken = new())
+        public override async Task<ActionResult<int>> HandleAsync(CancellationToken cancellationToken = new())
         {
-            return this.ToActionResult(await _rowService.CreateRowAsync(request, cancellationToken));
+            return this.ToActionResult(await _rowService.CreateRowAsync(cancellationToken));
         }
     }
 }

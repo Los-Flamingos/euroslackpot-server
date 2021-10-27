@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 
-namespace Common.Exceptions
+namespace Common.Exceptions.Base
 {
     public abstract class EuroslackpotException : Exception
     {

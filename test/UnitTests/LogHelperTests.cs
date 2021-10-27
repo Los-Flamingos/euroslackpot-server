@@ -1,5 +1,6 @@
 ﻿using System;
 using Common;
+using Common.Exceptions;
 using Common.LogHelpers;
 using Microsoft.Extensions.Logging;
 using Moq;

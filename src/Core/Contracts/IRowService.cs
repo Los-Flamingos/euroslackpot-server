@@ -7,6 +7,18 @@ namespace Core.Contracts
 {
     public interface IRowService
     {
-        Task<Result<int>> CreateRowAsync(CreateRowRequest createRowRequest, CancellationToken cancellationToken);
+        /// <summary>
+        /// CreateRowAsync creates a new row
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Database id of newly created row</returns>
+        Task<Result<int>> CreateRowAsync(CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Update row by id
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Id of updated row</returns>
+        Task<Result<int>> UpdateRowAsync(UpdateRowRequest request, CancellationToken cancellationToken);
     }
 }
